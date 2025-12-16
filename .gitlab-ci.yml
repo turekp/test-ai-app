@@ -23,31 +23,76 @@ build:
     - master
 
 # Deploy to DigitalOcean
+# OPS Team: Please configure the deployment method below based on infrastructure decision
+# See OPS_DEPLOYMENT_REQUEST.md for details
 deploy:
   stage: deploy
   image: alpine:latest
   before_script:
-    - apk add --no-cache curl
+    - apk add --no-cache curl openssh-client
   script:
     - |
-      echo "Deploying to DigitalOcean..."
-      # Replace with your DigitalOcean deployment script
-      # This example uses DigitalOcean App Platform or Droplet
-      # For App Platform, you would use doctl or webhook
-      # For Droplet, you would SSH and pull/restart containers
+      echo "Deploying HelloWorld app to DigitalOcean..."
       
-      # Example for DigitalOcean App Platform webhook:
-      # curl -X POST $DIGITALOCEAN_DEPLOY_WEBHOOK_URL
+      # OPS Team: Uncomment and configure ONE of the following deployment methods:
       
-      # Example for DigitalOcean Droplet via SSH:
-      # ssh $DIGITALOCEAN_SSH_USER@$DIGITALOCEAN_HOST "cd /app && docker-compose pull && docker-compose up -d"
+      # ============================================
+      # Option 1: DigitalOcean App Platform (Webhook)
+      # ============================================
+      # if [ -n "$DIGITALOCEAN_DEPLOY_WEBHOOK_URL" ]; then
+      #   echo "Triggering App Platform deployment via webhook..."
+      #   curl -X POST "$DIGITALOCEAN_DEPLOY_WEBHOOK_URL"
+      #   echo "Webhook triggered successfully"
+      # else
+      #   echo "Error: DIGITALOCEAN_DEPLOY_WEBHOOK_URL not set"
+      #   exit 1
+      # fi
       
-      echo "Deployment completed successfully"
+      # ============================================
+      # Option 2: DigitalOcean Droplet (SSH)
+      # ============================================
+      # if [ -n "$DIGITALOCEAN_SSH_HOST" ] && [ -n "$DIGITALOCEAN_SSH_USER" ]; then
+      #   echo "Deploying to Droplet via SSH..."
+      #   mkdir -p ~/.ssh
+      #   echo "$DIGITALOCEAN_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      #   chmod 600 ~/.ssh/id_rsa
+      #   ssh -o StrictHostKeyChecking=no -p ${DIGITALOCEAN_SSH_PORT:-22} \
+      #     $DIGITALOCEAN_SSH_USER@$DIGITALOCEAN_HOST << 'EOF'
+      #     docker pull $CI_REGISTRY_IMAGE:latest
+      #     docker stop test-ai-app || true
+      #     docker rm test-ai-app || true
+      #     docker run -d -p 80:80 --name test-ai-app --restart unless-stopped $CI_REGISTRY_IMAGE:latest
+      # EOF
+      #   echo "Deployment to Droplet completed"
+      # else
+      #   echo "Error: SSH credentials not configured"
+      #   exit 1
+      # fi
+      
+      # ============================================
+      # Option 3: DigitalOcean Kubernetes
+      # ============================================
+      # if [ -n "$DIGITALOCEAN_KUBECONFIG" ]; then
+      #   echo "Deploying to Kubernetes..."
+      #   mkdir -p ~/.kube
+      #   echo "$DIGITALOCEAN_KUBECONFIG" > ~/.kube/config
+      #   kubectl set image deployment/test-ai-app test-ai-app=$CI_REGISTRY_IMAGE:latest -n ${DIGITALOCEAN_NAMESPACE:-default}
+      #   kubectl rollout status deployment/test-ai-app -n ${DIGITALOCEAN_NAMESPACE:-default}
+      #   echo "Kubernetes deployment completed"
+      # else
+      #   echo "Error: KUBECONFIG not set"
+      #   exit 1
+      # fi
+      
+      # Temporary placeholder - OPS team needs to configure above
+      echo "⚠️  WARNING: Deployment method not configured by OPS team"
+      echo "Please see OPS_DEPLOYMENT_REQUEST.md and configure deployment in .gitlab-ci.yml"
+      echo "Deployment stage completed (no action taken)"
   only:
     - main
     - master
   when: manual
   environment:
     name: production
-    url: https://your-app-url.com
+    url: ${APP_URL:-https://your-app-url.com}
 
