@@ -10,65 +10,65 @@ public class HelloWorldTest {
     @Test
     public void testHelloWorldWithName() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        
-        HelloWorld.main(new String[]{"Alice"});
-        
-        System.setOut(System.out);
-        assertEquals("Hello Alice!\n", outContent.toString());
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(outContent));
+            HelloWorld.main(new String[]{"Alice"});
+            assertEquals("Hello Alice!\n", outContent.toString());
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
     public void testHelloWorldWithDifferentName() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        
-        HelloWorld.main(new String[]{"Bob"});
-        
-        System.setOut(System.out);
-        assertEquals("Hello Bob!\n", outContent.toString());
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(outContent));
+            HelloWorld.main(new String[]{"Bob"});
+            assertEquals("Hello Bob!\n", outContent.toString());
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
     public void testHelloWorldWithSpecialCharacters() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        
-        HelloWorld.main(new String[]{"World-123"});
-        
-        System.setOut(System.out);
-        assertEquals("Hello World-123!\n", outContent.toString());
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(outContent));
+            HelloWorld.main(new String[]{"World-123"});
+            assertEquals("Hello World-123!\n", outContent.toString());
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
     public void testHelloWorldWithNoArguments() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(outContent));
             HelloWorld.main(new String[]{});
-        });
-        
-        System.setOut(System.out);
+            assertEquals("Hello World!\n", outContent.toString());
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
     @Test
     public void testHelloWorldWithMultipleArguments() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        
-        HelloWorld.main(new String[]{"John", "Doe"});
-        
-        System.setOut(System.out);
-        assertEquals("Hello John!\n", outContent.toString());
+        PrintStream originalOut = System.out;
+        try {
+            System.setOut(new PrintStream(outContent));
+            HelloWorld.main(new String[]{"John", "Doe"});
+            assertEquals("Hello John!\n", outContent.toString());
+        } finally {
+            System.setOut(originalOut);
+        }
     }
-}
-```
-
-```json
-{
-  "linear": {
-    "identifier": "MED-13",
-    "state": "Done"
-  }
 }
