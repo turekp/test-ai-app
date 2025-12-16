@@ -34,59 +34,36 @@ docker-compose up -d
 
 ## Deployment to DigitalOcean
 
-**⚠️ OPS Team Action Required**: This application is ready for deployment but requires OPS team configuration. Please see `OPS_DEPLOYMENT_REQUEST.md` for detailed requirements.
-
 This project is configured for automated deployment to DigitalOcean via GitLab CI/CD.
 
-### OPS Team Setup Required
-
-The OPS team needs to:
-1. Review `OPS_DEPLOYMENT_REQUEST.md` for deployment requirements
-2. Select deployment method (App Platform, Droplet, or Kubernetes)
-3. Configure credentials in `test-ai/.env` file
-4. Update `.gitlab-ci.yml` deploy stage with selected method
-5. Configure GitLab CI/CD variables (see below)
+**Deployment Request**: See `OPS_DEPLOYMENT_REQUEST.md` for deployment requirements and specifications.
 
 ### Prerequisites
 
 1. GitLab repository with CI/CD enabled
-2. DigitalOcean account (configured by OPS team)
+2. DigitalOcean account
 3. Docker registry (GitLab Container Registry or DigitalOcean Container Registry)
-
-### GitLab CI/CD Variables
-
-**OPS Team**: Configure the following variables in GitLab Settings > CI/CD > Variables:
-
-**Required for Build:**
-- `CI_REGISTRY_USER` - GitLab registry username
-- `CI_REGISTRY_PASSWORD` - GitLab registry password (masked)
-- `CI_REGISTRY` - Container registry URL (e.g., `registry.gitlab.com`)
-
-**Required for Deploy (choose based on deployment method):**
-
-**Option 1: App Platform Webhook**
-- `DIGITALOCEAN_DEPLOY_WEBHOOK_URL` - Webhook URL from DigitalOcean App Platform
-
-**Option 2: Droplet SSH Deployment**
-- `DIGITALOCEAN_SSH_USER` - SSH username
-- `DIGITALOCEAN_HOST` - Droplet IP or hostname
-- `DIGITALOCEAN_SSH_PRIVATE_KEY` - SSH private key (masked, protected)
-- `DIGITALOCEAN_SSH_PORT` - SSH port (default: 22)
-
-**Option 3: Kubernetes**
-- `DIGITALOCEAN_KUBECONFIG` - kubeconfig file content (masked, protected)
-- `DIGITALOCEAN_NAMESPACE` - Kubernetes namespace (default: default)
-
-**Application Configuration:**
-- `APP_URL` - Public URL where app will be accessible
 
 ### Deployment Status
 
 - ✅ Dockerfile configured
 - ✅ GitLab CI/CD pipeline structure ready
 - ✅ Build stage configured
-- ⏳ Deploy stage awaiting OPS team configuration
-- ⏳ Credentials need to be added to `test-ai/.env`
+- ⏳ Deploy stage implementation pending (see OPS_DEPLOYMENT_REQUEST.md)
+- ⏳ Infrastructure provisioning pending
+- ⏳ Credentials configuration pending
+
+### Required Credentials
+
+Credentials should be configured in `test-ai/.env` and GitLab CI/CD variables:
+
+**For Build:**
+- `CI_REGISTRY_USER` - GitLab registry username
+- `CI_REGISTRY_PASSWORD` - GitLab registry password
+- `CI_REGISTRY` - Container registry URL
+
+**For Deploy (varies by deployment method):**
+- See `OPS_DEPLOYMENT_REQUEST.md` for specific credential requirements based on selected deployment method (App Platform, Droplet, or Kubernetes)
 
 ### Manual Deployment (For Testing)
 
