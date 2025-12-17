@@ -1,29 +1,32 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+  <meta name="description" content="HelloWorld application with date display">
+  <title>HelloWorld - Date Display</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="date-banner" role="banner">
-    <time id="currentDate" datetime="">
-      <span class="date-label">Today:</span>
-      <span class="date-value"></span>
+  <div class="date-display-container" role="region" aria-label="Current date">
+    <time class="date-display" id="current-date" datetime="">
+      📅 <span class="date-text">Loading...</span>
     </time>
-  </header>
+  </div>
   
-  <div class="container">
+  <main class="main-content">
     <h1>Hello World</h1>
+    <p>Welcome to the HelloWorld application</p>
+    
     <form id="helloForm">
-      <label for="nameInput">Name:</label>
-      <input type="text" id="nameInput" placeholder="Enter your name" required>
+      <label for="nameInput">Enter your name:</label>
+      <input type="text" id="nameInput" placeholder="Your name">
       <button type="submit">Submit</button>
     </form>
-    <div id="output"></div>
-  </div>
+    
+    <div id="output" class="output"></div>
+  </main>
+  
   <script src="script.js"></script>
 </body>
 </html>
