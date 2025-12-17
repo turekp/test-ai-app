@@ -1,3 +1,4 @@
+css
 * {
   margin: 0;
   padding: 0;
@@ -71,3 +72,28 @@ button {
   display: block;
 }
 
+.date-banner {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.date-banner-label {
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0.8;
+  display: block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.date-banner-value {
+  font-size: 24px;
+  font-weight: bold;
+}
